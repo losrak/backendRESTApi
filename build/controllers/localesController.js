@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../database"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 class LocalesController {
     locales(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -34,26 +35,27 @@ class LocalesController {
             let body = req.body;
             yield database_1.default.query('INSERT INTO rentar set ?', [body]);
             // await pool.query('UPDATE locales SET ? WHERE id = ', body.id_local);
-            // let transporter = nodemailer.createTransport({
-            //     service: 'gmail',
-            //     auth: {
-            //       user: 'juanc.tellez@gmail.com',
-            //       pass: '123456'
-            //     }
-            // });
-            // let mailOptions = {
-            //     from: 'juanc.tellez@gmail.com',
-            //     to: 'myfriend@yahoo.com',
-            //     subject: 'Registro recibido',
-            //     text: 'Tu registro se ha realizado con éxito!'
-            // };
-            // transporter.sendMail(mailOptions, function(error, info){
-            //     if (error) {
-            //       console.log(error);
-            //     } else {
-            //       console.log('Email sent: ' + info.response);
-            //     }
-            // });
+            let transporter = nodemailer_1.default.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'juanc.tellez@gmail.com',
+                    pass: '123456'
+                }
+            });
+            let mailOptions = {
+                from: 'juanc.tellez@gmail.com',
+                to: 'myfriend@yahoo.com',
+                subject: 'Registro recibido',
+                text: 'Tu registro se ha realizado con éxito!'
+            };
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                }
+                else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
             res.json({
                 ok: true,
                 message: 'Se rentó el local con éxito'

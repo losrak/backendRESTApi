@@ -28,28 +28,28 @@ class LocalesController {
         await pool.query('INSERT INTO rentar set ?', [body]);
         // await pool.query('UPDATE locales SET ? WHERE id = ', body.id_local);
 
-        // let transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //       user: 'juanc.tellez@gmail.com',
-        //       pass: '123456'
-        //     }
-        // });
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'juanc.tellez@gmail.com',
+              pass: '123456'
+            }
+        });
           
-        // let mailOptions = {
-        //     from: 'juanc.tellez@gmail.com',
-        //     to: 'myfriend@yahoo.com',
-        //     subject: 'Registro recibido',
-        //     text: 'Tu registro se ha realizado con éxito!'
-        // };
+        let mailOptions = {
+            from: 'juanc.tellez@gmail.com',
+            to: 'myfriend@yahoo.com',
+            subject: 'Registro recibido',
+            text: 'Tu registro se ha realizado con éxito!'
+        };
           
-        // transporter.sendMail(mailOptions, function(error, info){
-        //     if (error) {
-        //       console.log(error);
-        //     } else {
-        //       console.log('Email sent: ' + info.response);
-        //     }
-        // });
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+        });
 
         res.json({
             ok: true,
